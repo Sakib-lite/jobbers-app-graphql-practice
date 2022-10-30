@@ -1,8 +1,8 @@
 import React from 'react';
-import CreateJobPost from './components/Post/CreateJobPost';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import SignUp from './components/Form/SignUp';
-import HomePage from './components/Home/HomePage';
+import Home from './pages/home/Home';
+import CreateJob from './pages/create-job/CreateJob';
+import Register from './pages/register/Register';
 
 function App() {
   return (
@@ -16,9 +16,9 @@ function App() {
           <Link to='/'>Home</Link>
         </div>
         <Switch>
-          <Route path='/' exact component={HomePage} />
-          <Route path='/create-job' exact component={CreateJobPost} />
-          <Route path='/register' exact component={SignUp} />
+          <Route path='/' exact component={Home} />
+          <Route path='/create-job' exact component={CreateJob} />
+          <Route path='/register' exact component={Register} />
         </Switch>
       </Router>{' '}
     </div>
