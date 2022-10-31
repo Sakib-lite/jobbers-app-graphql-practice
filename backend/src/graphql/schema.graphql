@@ -1,0 +1,32 @@
+type Query {
+  jobs: [Job!]!
+}
+type Mutation {
+  signup(credentials: Credentials!, name: String!): AuthPayload!
+  signin(credentials: Credentials!): AuthPayload!
+}
+
+type User {
+  name: String!
+  email: String!
+  password: String!
+}
+
+type Job {
+  title: String!
+  description: String!
+}
+
+type UserError {
+  message: String!
+}
+
+type AuthPayload {
+  userErrors: [UserError!]!
+  token: String
+}
+
+input Credentials {
+  email: String!
+  password: String!
+}
