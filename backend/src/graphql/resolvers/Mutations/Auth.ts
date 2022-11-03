@@ -3,6 +3,7 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { UserPayload } from './../../../utils/types';
+import { sendToken } from '../../../utils/sendToken';
 
 const Error = (msg: string) => {
   return {
@@ -15,17 +16,6 @@ const Error = (msg: string) => {
   };
 };
 
-const sendToken = (id: string) => {
-  return jwt.sign(
-    {
-      id,
-    },
-    'secretkey',
-    {
-      expiresIn: 3600000,
-    }
-  );
-};
 
 export const authResolvers = {
   signup: async (
@@ -65,7 +55,7 @@ export const authResolvers = {
       const user = await User.findOne({ email }); ///checking
 
       if (!user) return Error('Invalid email or password'); //sending error
-      if (user) console.log(user.password);
+
       let isMatch = bcrypt.compare(password, user.password); //matching password
 
       if (!isMatch) {

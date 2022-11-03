@@ -1,20 +1,40 @@
+scalar Date
+
 type Query {
   jobs: [Job!]!
+  companies: [Company!]!
 }
 type Mutation {
   signup(credentials: Credentials!, name: String!): AuthPayload!
   signin(credentials: Credentials!): AuthPayload!
+  companyCreate(input: CompanyInput!): CompanyPayload!
+  companyUpdate(id: ID!, input: CompanyInput!): CompanyPayload!
+  companyDelete(id: ID!): CompanyPayload!
+  jobCreate(input: JobInput!): JobPayload!
+  jobUpdate(id: ID!, input: JobInput!): JobPayload!
+  jobDelete(id: ID!): JobPayload!
 }
 
 type User {
+  id: ID!
   name: String!
   email: String!
   password: String!
 }
 
+type Company {
+  id: ID!
+  name: String!
+  description: String!
+  createdAt: Date!
+}
 type Job {
+  id: ID!
   title: String!
   description: String!
+  companyId: String!
+  author: String!
+  createdAt: Date!
 }
 
 type UserError {
@@ -24,6 +44,25 @@ type UserError {
 type AuthPayload {
   userErrors: [UserError!]!
   token: String
+}
+
+type JobPayload {
+  userErrors: [UserError!]!
+  job: Job
+}
+type CompanyPayload {
+  userErrors: [UserError!]!
+  company: Company
+}
+
+input CompanyInput {
+  name: String
+  description: String
+}
+input JobInput {
+  title: String
+  description: String
+  companyId: String
 }
 
 input Credentials {

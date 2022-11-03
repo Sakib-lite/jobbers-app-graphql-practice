@@ -8,12 +8,14 @@ import { resolvers } from './graphql/resolvers/index';
 import { connectToDatabase } from './utils/db';
 import { getUserFromToken } from './utils/getUserFromToken';
 import User from './models/userModel';
+import Company from './models/companyModel';
+import Job from './models/jobModel';
 
 dotenv.config();
 
 const app: Application = express();
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
@@ -31,10 +33,11 @@ async function initiateGraphQl(): Promise<void> {
     'utf8'
   );
 
-  const context = async ({ req }: any) => {
-    const userInfo = getUserFromToken(req.headers.authorization);
+  const context = async ({ req, res }: any) => {
+    const token=req.header('Authorization')?.replace('Bearer ', '');
+    const userInfo = await getUserFromToken(token);
     return {
-      models: { User },
+      models: { User, Company,Job },
       userInfo,
     };
   };
