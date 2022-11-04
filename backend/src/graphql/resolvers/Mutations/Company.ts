@@ -1,5 +1,5 @@
 import { CompanyInputArgs, CompanyUpdateArgs } from '../../../utils/types';
-import { Context } from './../../../utils/types';
+import { Context } from '../../../utils/types';
 interface PayloadToUpdate {
   name?: string;
   description?: string;

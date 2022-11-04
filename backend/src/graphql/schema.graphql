@@ -2,6 +2,8 @@ scalar Date
 
 type Query {
   jobs: [Job!]!
+  job(id: ID!):Job
+  company(id: ID!):Company
   companies: [Company!]!
 }
 type Mutation {
@@ -27,6 +29,7 @@ type Company {
   name: String!
   description: String!
   createdAt: Date!
+  jobs:[Job!]!
 }
 type Job {
   id: ID!
@@ -35,6 +38,7 @@ type Job {
   companyId: String!
   author: String!
   createdAt: Date!
+  company:Company!
 }
 
 type UserError {

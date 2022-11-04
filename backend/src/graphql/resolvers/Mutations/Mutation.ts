@@ -1,6 +1,6 @@
-import { authResolvers } from './Auth';
-import { companyResolvers } from './Company';
-import { jobResolvers } from './Job';
+import { authResolvers } from './auth';
+import { companyResolvers } from './company';
+import { jobResolvers } from './job';
 export const Mutation = {
   ...authResolvers,
   ...companyResolvers,

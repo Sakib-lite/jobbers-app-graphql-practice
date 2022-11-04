@@ -1,8 +1,7 @@
 import { Context, SignInArgs, SignUpArgs } from '../../../utils/types';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { UserPayload } from './../../../utils/types';
+import { UserPayload } from '../../../utils/types';
 import { sendToken } from '../../../utils/sendToken';
 
 const Error = (msg: string) => {
