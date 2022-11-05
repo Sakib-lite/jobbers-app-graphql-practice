@@ -39,6 +39,7 @@ type Job {
   author: String!
   createdAt: Date!
   company:Company!
+  user: User!
 }
 
 type UserError {
