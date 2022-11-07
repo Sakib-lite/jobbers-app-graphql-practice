@@ -51,7 +51,8 @@ export const authResolvers = {
       const { User } = models; //getting user model from context
       const { email, password } = credentials; //destructuring
 
-      const user = await User.findOne({ email }); ///checking
+      const user = await User.findOne({ email }).select('+password'); ///checking
+      
 
       if (!user) return Error('Invalid email or password'); //sending error
 

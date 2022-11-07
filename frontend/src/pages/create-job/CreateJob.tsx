@@ -1,5 +1,5 @@
 import React,{Fragment} from "react"
-import CreateJobPost from "../../components/Post/CreateJobPost";
+import CreateJobPost from "../../components/Job/CreateJobPost";
 
 const CreateJob = () => {
       

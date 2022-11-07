@@ -1,27 +1,58 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
 
-const SignUp = () => {
+const SIGNIN = gql`
+  mutation ($credentials: Credentials!) {
+    signin(credentials: $credentials) {
+      userErrors {
+        message
+      }
+      token
+    }
+  }
+`;
+
+const SignIn = () => {
+  const [email, setEmail] = useState('sakib@gmail.com');
+  const [password, setPassword] = useState('123456');
+
+  const [signin, { data, loading }] = useMutation(SIGNIN);
+
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    signin({
+      variables: {
+        credentials: {
+          email,
+          password,
+        },
+      },
+    });
+  };
+
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (data) {
+      if (data.signin.userErrors.length) {
+        setError(data.signin.userErrors[0].message);
+      }
+      if (data.signin.token) {
+        localStorage.setItem('token', data.signin.token);
+      }
+    }
+  }, [data]);
+
+  if (loading) return <div className='text-4xl font-bold'>loading....</div>;
+  if (error)
+    return <div className='text-4xl font-bold text-red-500'>Error!!!</div>;
+
   return (
     <Fragment>
       <div className='w-full h-screen bg-gray-200'>
         <div className='w-2/3 mx-auto'>
-          <form>
-            <div>
-              <div>
-                <label
-                  htmlFor='first_name'
-                  className='block mb-2 text-sm font-medium text-gray-900'
-                >
-                  Name
-                </label>
-                <input
-                  type='text'
-                  id='first_name'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  placeholder='John'
-                />
-              </div>
-            </div>
+          <form onSubmit={submitHandler}>
+            <div></div>
             <div className='mb-6'>
               <label
                 htmlFor='email'
@@ -34,6 +65,8 @@ const SignUp = () => {
                 id='email'
                 className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 placeholder='john.doe@company.com'
+                onChange={(e) => setEmail(e.target.value)}
+                defaultValue='sakib@gmail.com'
               />
             </div>
             <div className='mb-6'>
@@ -44,10 +77,10 @@ const SignUp = () => {
                 Password
               </label>
               <input
-                type='password'
                 id='password'
                 className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                placeholder='•••••••••'
+                onChange={(e) => setPassword(e.target.value)}
+                defaultValue='123456'
               />
             </div>
 
@@ -64,4 +97,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
